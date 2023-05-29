@@ -9,6 +9,7 @@ import { Observable, tap, catchError, throwError, EMPTY } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { TokenResponse } from '../models/token-response';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -36,18 +37,28 @@ export class ErrorInterceptor implements HttpInterceptor {
             !this.isRefreshToken)
         ) {
           this.isRefreshToken = true;
-          this.userService
-            .refreshToken(sessionData)
-            .subscribe({ next: (data) => this.tokenService.saveSession(data) },
-           { error :()=>{}},
-           { complete: ()=> this.isRefreshToken = false });
-        } else if(err.status ='400' ){
-this.tokenService.logout();
-this.router.navigate(['login']);
-        }else{
-         return throwError(()=>  err.error);
+          this.userService.refreshToken(sessionData).subscribe({
+            next: (data) => {
+              console.info(
+                'Tokens renewed, we will save them into the local storage'
+              );
+
+              this.tokenService.saveSession(data);
+            },
+
+            error: () => {},
+
+            complete: () => {
+              this.isRefreshToken = false;
+            },
+          });
+        } else if ((err.status = '400')) {
+          this.tokenService.logout();
+          this.router.navigate(['login']);
+        } else {
+          return throwError(() => err.error);
         }
-        
+
         return EMPTY;
       })
     );

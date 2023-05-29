@@ -9,6 +9,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,10 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     LoginComponent,
     SignUpComponent,
     TasksComponent,
-    ProfileComponent
-      ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
+    ProfileComponent,
   ],
-  providers: [AuthInterceptor, ErrorInterceptor ],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  providers: [AuthInterceptor, ErrorInterceptor],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

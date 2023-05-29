@@ -11,7 +11,7 @@ import { TokenResponse } from '../models/token-response';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) { }
 
   login(loginRequest: LoginRequest): Observable<TokenResponse> {
     return this.httpClient.post<TokenResponse>(
@@ -36,4 +36,14 @@ export class UserService {
       refreshTokenRequest
     );
   }
+
+  logout() {
+    return this.httpClient.post(`${environment.apiUrl}/users/signup`, null);
+  }
+
+  //get user info
+  getUserInformations() {
+    return this.httpClient.get(`${environment.apiUrl}/users/info`);
+  }
+
 }

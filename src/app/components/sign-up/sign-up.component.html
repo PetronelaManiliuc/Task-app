@@ -1,1 +1,79 @@
-<p>sign-up works!</p>
+<div class="container">
+  <div class="row m-3 justify-content-center">
+    <h2>Sign up</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-container p-3">
+        <form #ngSignupForm="ngForm" name="form" novalidate (ngSubmit)="(onSubmit)">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="signupRequest.email" required
+              #email="ngModel" />
+            <div class="alert alert-danger" role="alert" *ngIf="ngSignupForm.submitted && email.errors">
+              Email is required!
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+
+            <input type="password" class="form-control" name="password" [(ngModel)]="signupRequest.password" required
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" #password="ngModel" />
+
+            <div class="alert-danger" *ngIf="ngSignupForm.submitted && password.errors">
+              <div *ngIf="password.errors['required']">
+                Password is required
+              </div>
+
+              <div *ngIf="password.errors['pattern']">
+                Enter a strong password. At least one number and one uppercase
+                and lowercase letter, and at least 8 or more characters.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Password</label>
+            <input type="confirmPassword" class="form-control" name="confirmPassword"
+              [(ngModel)]="signupRequest.confirmPassword" required #confirmPassword="ngModel" />
+            <div class="alert alert-danger" role="alert" *ngIf="ngSignupForm.submitted && confirmPassword.errors">
+              <div *ngIf="confirmPassword.errors['required']">
+                Confirm password is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="firstName">FirstName</label>
+            <input type="firstName" class="form-control" name="firstName" [(ngModel)]="signupRequest.firstName" required
+              #firstName="ngModel" />
+            <div class="alert alert-danger" role="alert" *ngIf="ngSignupForm.submitted && firstName.errors">
+              <div *ngIf="firstName.errors['required']">
+                FirstName is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastname">Lastname</label>
+            <input type="lastname" class="form-control" name="lastname" [(ngModel)]="signupRequest.lastname" required
+              #lastname="ngModel" />
+            <div class="alert alert-danger" role="alert" *ngIf="ngSignupForm.submitted && lastname.errors">
+              <div *ngIf="lastname.errors['required']">
+                LastName is required
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isSighupFailed && ngSignupForm.submitted">
+            Signup Failed! <br />
+            {{ errorMessage }}
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary btn-block">Sign up</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

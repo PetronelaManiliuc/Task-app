@@ -8,19 +8,22 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   loginRequest: LoginRequest = {
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   };
 
   isLoggedIn = false;
   isLoginFailed = false;
   error: ErrorResponse = { error: '', errorCode: 0 };
-  constructor(private userService: UserService, private tokenService: TokenService, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private tokenService: TokenService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     let isLoggedIn = this.tokenService.isLoggedIn();
@@ -33,26 +36,23 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-
     this.userService.login(this.loginRequest).subscribe({
-      next: (data => {
+      next: (data) => {
         console.debug(`logged in successfully ${data}`);
         this.tokenService.saveSession(data);
         this.isLoggedIn = true;
         this.isLoginFailed = false;
         this.reloadPage();
-      }),
-      error: ((error: ErrorResponse) => {
+      },
+      error: (error: ErrorResponse) => {
         this.error = error;
         this.isLoggedIn = false;
         this.isLoginFailed = true;
-      })
-
+      },
     });
   }
+
   reloadPage(): void {
     window.location.reload();
   }
-
-
 }

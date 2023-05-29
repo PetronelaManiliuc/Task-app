@@ -3,6 +3,5 @@ export interface SignupRequest {
     password: string;
     confirmPassword: string;
     firstName: string;
-    lastname: string; 
-    ts: Date;
+    lastname: string;
 }
